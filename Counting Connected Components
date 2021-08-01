@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll 				long long int
+#define ld				long double
+#define mod             		1000000007
+#define endl				"\n"
+#define vi              		vector<ll>
+#define vs				vector<string>
+#define ump				unordered_map
+#define mp 				map
+#define mid(l,r)        		(l+(r-l)/2)
+#define loop(i,a,b) 			for(int i=a;i<=b;i++)
+#define looprev(i,a,b) 			for(int i=a;i>=b;i--)
+#define swapkro(a,b)        a ^= b; b ^= a;  a ^= b;
+
+
+void file_i_o()
+{
+    ios_base::sync_with_stdio(0); 
+    cin.tie(0); 
+    cout.tie(0);
+}
+
+vector<int> ar[100001];
+int vis[100001];
+
+void dfs(int node)
+{
+    vis[node]=1;
+    for(int child : ar[node])
+        if(!vis[child])
+        dfs(child);
+}
+
+int main(int argc, char const *argv[]) {
+	file_i_o();
+	int n,m;    //n-> number of nodes   m-> number of edges
+	cin>>n>>m;
+	for(int i=1;i<=m;i++)
+	{
+	    int a,b;    //egde is between a and b
+	    cin>>a>>b;
+	    ar[a].push_back(b);
+	    ar[b].push_back(a);
+	}
+	int cc_count=0;
+	for(int i=1;i<=n;i++)
+	{
+	    if(!vis[i])
+	    {
+	        dfs(i);
+	        cc_count++;
+	    }
+	}
+	cout<<cc_count;
+	return 0;
+}
