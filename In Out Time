@@ -1,0 +1,11 @@
+int timer = 1;
+void dfs(int v) {
+   vis[v] = 1;
+   in[v] = timer++;
+   for(int child : arr[v])  {
+       if(vis[v] == 0)  {
+           dfs(child);
+       }
+   }
+   out[v] = timer++;
+}
