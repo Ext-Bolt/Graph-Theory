@@ -1,0 +1,11 @@
+int dfs(int node)   {
+    vis[node] = 1;
+    int curr_size = 1;
+    for(int child : arr[node])  {
+        if(vis[node] == 0)  {
+            curr_size += dfs(child);
+        }
+    }
+    subtree[node] = curr_size;
+    return curr_size;
+}
