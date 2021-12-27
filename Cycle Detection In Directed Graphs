@@ -1,16 +1,17 @@
-bool dfs(int v,int par) {
+bool dfs(int v)     {
     vis[v] = 1;
     for(int child : arr[v]) {
         if(vis[child] == 0) {
-            if(dfs(child,v) == true)    {
+            if(dfs(child) == true)  {
                 return true;
             }
         }
-        else {
-            if(child != par)    {
+        else    {
+            if(vis[child] == 1) {
                 return true;
             }
         }
     }
-    retrun false;
+    vis[v] = 2;
+    return false;
 }
