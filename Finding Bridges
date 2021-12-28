@@ -1,0 +1,25 @@
+int timer;
+
+void dfs(int v,int par) {
+    vis[v] = 1;
+    in[v] = low[v] = timer;
+    timer++;
+    
+    for(int child : arr[v]) {
+        if(child == par)    continue;
+        
+        if(vis[v] == 1) {
+            low[v] = min(low[v],in[child]);
+        }
+        
+        else    {
+            dfs(child,v);
+            
+            if(low[child] > in[v])  {
+                cout<<v<<"-"<<child<<"is a bridge\n";
+            }
+            
+            low[v] = min(low[v],low[child]);
+        }
+    }
+}
