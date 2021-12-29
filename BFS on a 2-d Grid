@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll 				long long int
+#define ld				long double
+#define mod             		1000000007
+#define endl				"\n"
+#define vi              		vector<int>
+#define vs				vector<string>
+#define ump				unordered_map
+#define mp 				map
+#define mid(l,r)        		(l+(r-l)/2)
+#define loop(i,a,b) 			for(int i=a;i<=b;i++)
+#define looprev(i,a,b) 			for(int i=a;i>=b;i--)
+#define swapkro(a,b)        a ^= b; b ^= a;  a ^= b;
+
+void file_i_o()
+{
+    ios_base::sync_with_stdio(0); 
+    cin.tie(0); 
+    cout.tie(0);
+}
+
+char arr[1005][1005];
+int vis[1005][1005];
+int dx[4] = {-1,0,1,0};
+int dy[4] = {0,-1,0,1};
+int dist[1005][1005];
+int n,m;
+
+bool isvalid(int x,int y)   {
+    if(x<1 || x>n || y<1 || y>m)    {
+        return false;
+    }
+    if(vis[x][y] == 1)  return false;
+    
+    return true;
+}
+
+void bfs(int x,int y)   {
+    queue<pair<int,int>> q;
+    
+    q.push({x,y});
+    vis[x][y] = 1;
+    dist[x][y] = 0;
+    
+    while(!q.empty())   {
+        int xi = q.front().first;
+        int yj = q.front().second;
+        
+        q.pop();
+        
+        for(int i=0;i<4;i++)    {
+            if(isvalid(xi + dx[i],yj + dy[i]))  {
+                q.push({xi + dx[i],yj + dy[i]});
+                vis[xi + dx[i]][yj + dy[i]] = 1;
+                dist[xi + dx[i]][yj + dy[i]] = dist[xi][yj] + 1;
+            }
+        }    
+    }
+}
+
+int main(int argc, char const *argv[]) {
+	file_i_o();
+	cin>>n>>m;
+	
+	bfs(5,5);
+	for(int i=1;i<=n;i++)   {
+	    for(int j=1;j<=m;j++)   {
+	        cout<<dist[i][j]<<" ";
+	    }
+	    cout<<"\n";
+	}
+	return 0;
+}
