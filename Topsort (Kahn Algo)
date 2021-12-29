@@ -2,7 +2,7 @@ vector<int> res;
 int in[10001];  //in degree
 
 void kahn(int n)    {
-    quque<int> q;
+    queue<int> q;
     for(int i=1;i<=n;i++)   {
         if(in[i] == 0)  {
             q.push(i);
