@@ -1,7 +1,7 @@
 void dfs(int v,int par = -1)    {
     vis[v] = 1;
     in[v] = low[v] = timer++;
-    itn children = 0;
+    int children = 0;
     
     for(int child : arr[v] )    {
         if(child == par)    continue;
