@@ -1,0 +1,23 @@
+void dfs(int v,int par = -1)    {
+    vis[v] = 1;
+    in[v] = low[v] = timer++;
+    itn children = 0;
+    
+    for(int child : arr[v] )    {
+        if(child == par)    continue;
+        if(vis[child])  {
+            low[v] = min(low[v],in[child]);
+        }
+        else    {
+            dfs(child,v);
+            low[v] = min(low[v],low[child]);
+            if(low[child]>= in[v] && par != -1) {
+                is_artpoint(v);
+                ++children;
+            }  
+        }
+    }
+    if(p == -1 && children >= 2)    {
+        is_artpoint(v);
+    } 
+}
