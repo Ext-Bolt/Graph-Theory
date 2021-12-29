@@ -1,0 +1,34 @@
+vector<int> res;
+int in[10001];  //in degree
+
+void kahn(int n)    {
+    quque<int> q;
+    for(int i=1;i<=n;i++)   {
+        if(in[i] == 0)  {
+            q.push(i);
+        }
+    }
+    
+    while(!q.empty())   {
+        
+        int curr = q.front();
+        res.push_back(curr);
+        
+        q.pop();
+        
+        for(int child : arr[curr])  {
+            in[child]--;
+            if(in[child] == 0)  {
+                q.push(child);
+            }
+        }
+    }
+}
+
+// also in adjacency list since these edges are unidirection //
+
+for(int i=0;i<m;i++)    {
+    cin>>x>>y;
+    arr[x].push_back(y);
+    in[y]++;
+}
