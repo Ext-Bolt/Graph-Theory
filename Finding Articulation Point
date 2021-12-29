@@ -17,7 +17,7 @@ void dfs(int v,int par = -1)    {
             }  
         }
     }
-    if(p == -1 && children >= 2)    {
+    if(par == -1 && children >= 2)    {
         is_artpoint(v);
     } 
 }
