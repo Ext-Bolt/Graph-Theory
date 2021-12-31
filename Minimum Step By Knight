@@ -1,0 +1,86 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution 
+{
+    public:
+    
+    int dx[8] = { -2 , -1 , 1 , 2 , 2 , 1 , -1 , -2};
+    int dy[8] = { 1 , 2 , 2 , 1 , -1 , -2 , -2 , -1};
+    int vis[1005][1005];
+    int dist[1005][1005];
+    int n;
+    int targetX,targetY;
+    
+    bool isValid(int x , int y)
+    {
+	if(x < 1 || x > n || y < 1 || y > n) return false;
+	
+	if(vis[x][y] == 1) return false;
+	
+	return true;
+    }
+    
+    int bfs(int x,int y)    {
+        queue<pair<int,int> > q;
+	    dist[x][y] = 0;
+	    vis[x][y] = 1;
+	    q.push({x , y});
+	
+	if(x == targetX && y == targetY) { return dist[x][y]; }
+	
+	while(!q.empty())
+	{
+		int curr_x = q.front().first;
+		int curr_y = q.front().second;
+		q.pop();
+		
+		for(int i=0;i<8;i++)
+		if(isValid(curr_x + dx[i] , curr_y + dy[i]))
+		{
+			x = curr_x + dx[i];
+			y = curr_y + dy[i];
+			
+			dist[x][y] = dist[curr_x][curr_y] + 1;
+			vis[x][y] = 1;
+			q.push({x , y});
+			
+			if(x == targetX && y == targetY) return dist[x][y];
+		}
+	}
+        
+    }
+    
+	int minStepToReachTarget(vector<int>&K,vector<int>&T,int N)
+	{
+	    memset(dist,0,sizeof(dist));
+	    memset(vis,0,sizeof(vis));
+	    n=N;
+	    int ix = K[0];
+	    int iy = K[1];
+	    targetX = T[0];
+	    targetY = T[1];
+	    return bfs(ix,iy);
+	}
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		vector<int>KnightPos(2);
+		vector<int>TargetPos(2);
+		int N;
+		cin >> N;
+		cin >> KnightPos[0] >> KnightPos[1];
+		cin >> TargetPos[0] >> TargetPos[1];
+		Solution obj;
+		int ans = obj.minStepToReachTarget(KnightPos, TargetPos, N);
+		cout << ans <<"\n";
+	}
+	return 0;
+}  // } Driver Code Ends
