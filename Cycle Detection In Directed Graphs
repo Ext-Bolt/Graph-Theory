@@ -15,3 +15,36 @@ bool dfs(int v)     {
     vis[v] = 2;
     return false;
 }
+
+//  450 - DSA   //
+
+ bool dfs(int v,vector<int> &vis,vector<int> adj[])  {
+        vis[v] = 1;
+        
+        for(int child : adj[v]) {
+            if(!vis[child]) {
+                if(dfs(child,vis,adj) == true)  {
+                    return true;
+                }
+            }
+            else    {
+                if(vis[child] == 1) {
+                    return true;
+                }
+            }
+        }
+        vis[v] = 2;
+        return false;
+    }
+    
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<int> vis(V,0);
+        for(int i=0;i<V;i++)    {
+            if(!vis[i]) {
+                if(dfs(i,vis,adj))  {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
