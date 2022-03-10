@@ -18,3 +18,35 @@ void bfs(int v) {
     }
     
 }
+
+// 450-DSA //
+
+void bfs(int v,vector<int> &res,vector<int> adj[],vector<int> &vis,vector<int> &dist)   {
+        queue<int> q;
+        q.push(v);
+        res.push_back(v);
+        vis[v] = 1;
+        dist[v] = 0;
+        
+        while(!q.empty())   {
+            int curr = q.front();
+            q.pop();
+            
+            for(int child : adj[curr])  {
+                if(vis[child] == 0) {
+                    q.push(child);
+                    res.push_back(child);
+                    dist[child] = dist[curr] + 1;
+                    vis[child] = 1;
+                }
+            }
+        }
+    }
+    
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        vector<int> vis(V,0);
+        vector<int> res;
+        vector<int> dist(V,0);
+        bfs(0,res,adj,vis,dist);
+        return res;
+    }
