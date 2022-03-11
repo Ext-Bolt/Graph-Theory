@@ -1,0 +1,52 @@
+void dfs(int node,vector<int> adj[],vector<int> &vis)   {
+        vis[node] = 1;
+        for(int child : adj[node])   {
+            if(!vis[child]) {
+                dfs(child,adj,vis);
+            }
+        }
+    }
+    
+    void delEdge(vector<int> adj[], int u, int v)
+{
+    for (int i = 0; i < adj[u].size(); i++) {
+        if (adj[u][i] == v) {
+            adj[u].erase(adj[u].begin() + i);
+            break;
+        }
+    }
+ 
+    for (int i = 0; i < adj[v].size(); i++) {
+        if (adj[v][i] == u) {
+            adj[v].erase(adj[v].begin() + i);
+            break;
+        }
+    }
+}
+    
+    int isBridge(int V, vector<int> adj[], int c, int d) 
+    {
+        vector<int> vis(V,0);
+        int cs = 0;
+        for(int i=0;i<V;i++)    {
+            if(!vis[i]) {
+            dfs(i,adj,vis);
+            cs++;
+            }
+        }
+        int ce = 0;
+        delEdge(adj,c,d);
+        for(int i=0;i<V;i++)    {
+            vis[i] = 0;
+        }
+        for(int i=0;i<V;i++)    {
+            if(!vis[i]) {
+            dfs(i,adj,vis);
+            ce++;
+            }
+        }
+        if(cs != ce)    {
+            return 1;
+        }
+        else    return 0;
+    }
