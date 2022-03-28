@@ -74,3 +74,59 @@ int main()
 	
 }
 
+// 450 dsa //
+
+vector<vector<int>>ans;
+
+void dfs(int node,vector<int>adj[],vector<int>&itime,
+vector<int>&low,vector<bool>&visited,int &timer,stack<int>&s,
+vector<bool>&stack_presence){
+    itime[node]=low[node]=timer++;
+    visited[node]=true;
+    s.push(node);
+    stack_presence[node]=true;
+    
+    for(int x:adj[node]){
+        if(visited[x]==false){
+            dfs(x,adj,itime,low,visited,timer,s,stack_presence);
+            low[node]=min(low[node],low[x]);
+        }
+        //checking crossedge
+        else{
+            if(stack_presence[x]==true)
+            low[node]=min(low[node],itime[x]);
+        }
+    }
+    if(itime[node]==low[node]){
+        vector<int>v;
+        while(s.top()!=node){
+            int val=s.top();
+            s.pop();
+            stack_presence[val]=false;
+            v.push_back(val);
+        }
+        v.push_back(s.top());
+        s.pop();
+        stack_presence[node]=false;
+        sort(v.begin(),v.end());
+        ans.push_back(v);
+    }
+}
+   //Function to return a list of lists of integers denoting the members 
+   //of strongly connected components in the given graph.
+   vector<vector<int>> tarjans(int V, vector<int> adj[])
+   {
+       //code here
+       vector<int>itime(V,-1);
+       vector<int>low(V,-1);
+       vector<bool>visited(V,false);
+       int timer=0;
+       stack<int>s;
+       vector<bool>stack_presence(V,false);
+       for(int i=0;i<V;i++){
+           if(visited[i]==false)
+           dfs(i,adj,itime,low,visited,timer,s,stack_presence);
+       }
+       sort(ans.begin(),ans.end());
+       return ans;
+   }
