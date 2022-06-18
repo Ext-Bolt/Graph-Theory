@@ -1,0 +1,123 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll 				long long int
+#define ld				long double
+#define mod             		1000000007
+#define endl				"\n"
+#define vi              		vector<ll>
+#define vs				vector<string>
+#define ump				unordered_map
+#define mp 				map
+#define mid(l,r)        		(l+(r-l)/2)
+#define loop(i,a,b) 			for(int i=a;i<=b;i++)
+#define looprev(i,a,b) 			for(int i=a;i>=b;i--)
+#define swapkro(a,b)        a ^= b; b ^= a;  a ^= b;
+
+void file_i_o()
+{
+    ios_base::sync_with_stdio(0); 
+    cin.tie(0); 
+    cout.tie(0);
+}
+
+vector<int> arr[10005];
+vector<int> primes;
+int vis[10005];
+int dist[10005];
+
+bool isprime(int n) {
+    for(int i = 2;i*i<=n;i++)   {
+        if(n%i == 0)    {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool check(int a,int b) {
+    int cnt = 0;
+    while(a > 0)    {
+        if(a%10 != b%10)    {
+            cnt++;
+        }
+        a =a/10;
+        b = b/10;
+    }
+    if(cnt == 1)    {
+        return true;
+    }
+    return false;
+}
+
+void buildgraph()   {
+    for(int i = 1000;i<=9999;i++)   {
+        if(isprime(i))  {
+            primes.push_back(i);
+        }
+    }
+    for(int i = 0;i<primes.size();i++)  {
+        for(int j = i+1;j<primes.size();j++)  {
+            int a = primes[i];
+            int b = primes[j];
+            
+            if(check(a,b))  {
+                arr[a].push_back(b);
+                arr[b].push_back(a);
+            }
+        }
+    }
+}
+
+void bfs(int a) {
+    queue<int> q;
+    q.push(a);
+    
+    dist[a] = 0;
+    vis[a] = 1;
+    
+    while(!q.empty())   {
+        int curr = q.front();
+        q.pop();
+        
+        for(int child : arr[curr])  {
+            if(vis[child] == 0) {
+                dist[child ] = dist[curr] + 1;
+                vis[child] = 1;
+                q.push(child);
+            }
+        }
+    }
+}
+
+int solve() {
+    int a,b;
+    cin>>a>>b;
+    
+    for(int i = 1000;i<=9999;i++)   {
+        dist[i] = -1;
+        vis[i] = 0;
+    }
+    
+    bfs(a);
+    if(dist[b] == -1)   {
+        cout<<"Impossible";
+    }
+    else    {
+        cout<<dist[b];
+    }
+    return 0;
+}
+
+int main(int argc, char const *argv[]) {
+	file_i_o();
+	int t=1;
+	cin>>t;
+	buildgraph();
+	
+	while(t--)  {
+	    solve();
+	    cout<<"\n";
+	}
+	return 0;
+}
