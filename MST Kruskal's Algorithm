@@ -1,0 +1,51 @@
+struct edge {
+	    int a,b,w;
+	};
+	
+	static bool comp(edge a,edge b) {
+	    return b.w > a.w;
+	}
+	 
+	int find(int a,vector<int> &par) {
+	    if(par[a] == -1)    {
+	        return a;
+	    }
+	    return par[a] = find(par[a],par);
+	}
+	
+	bool merge(int a,int b,vector<int> &par)    {
+	    par[b] = a;
+	}
+	
+    int spanningTree(int v, vector<vector<int>> adj[])
+    {
+        vector<edge> ar;
+        
+        for(int i = 0;i<v;i++)  {
+            for(vector<int> e : adj[i]) {
+                edge temp;
+                temp.a = i;
+                temp.b = e[0];
+                temp.w = e[1];
+                ar.push_back(temp);
+            }
+        }
+        
+        sort(ar.begin(),ar.end(),comp);
+        
+        int m = ar.size();
+        int sum = 0;
+        vector<int> par(v,-1);
+        
+        for(int i = 0;i<m;i++)  {
+            int a = find(ar[i].a,par);
+            int b = find(ar[i].b,par);
+            
+            if(a != b)  {
+                sum += ar[i].w;
+                merge(a,b,par);
+            }
+        }
+        
+        return sum;
+    }
