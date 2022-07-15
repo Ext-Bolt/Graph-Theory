@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int main()
+{
+
+	int n,m;
+	cin>>n>>m;
+	vector<vector<ll>> adj(n,vector<ll>(n,INT_MAX));
+	for(int i=0;i<n;i++)
+	{
+		adj[i][i]=0;
+	}
+	vector<int> degree(n,0);
+	int sum=0;
+	for(int i=0;i<m;i++)
+	{
+		int a,b,c;
+		cin>>a>>b>>c;
+		degree[a]++;
+		degree[b]++;
+		sum+=c;
+		adj[b][a]=c;
+		adj[a][b]=c;
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			for(int k=0;k<n;k++)
+			{
+
+				if(adj[j][k]>adj[j][i]+adj[i][k])
+				{
+					adj[j][k]=adj[j][i]+adj[i][k];
+				}
+			}
+		}
+	}
+	vector<int> pairs;
+	bool euler=true;
+	for(int i=0;i<n;i++)
+	{
+		if(degree[i]&1)
+		{
+			euler=false;
+			pairs.push_back(i);
+		}
+	}
+	if(euler){
+		cout<<sum<<endl;
+		return 0;
+	}
+	vector<bool> visited(n,false);
+	for(int i=0;i<pairs.size();i++)
+	{
+		if(!visited[i])
+		{
+			int MIN=INT_MAX;
+			int a,b;
+			bool flag=false;
+			for(int j=0;j<pairs.size();j++)
+			{
+				if(i!=j && !visited[j])
+				{
+					
+					if(MIN>adj[pairs[i]][pairs[j]]){
+						flag=true;
+						MIN=adj[pairs[i]][pairs[j]];
+						a=i;
+						b=j;
+
+					}					
+				}
+			}
+			if(flag){
+				visited[b]=true;
+				visited[a]=true;
+			}
+			sum+=MIN;
+		}
+	}
+	cout<<sum<<endl;
+
+}
