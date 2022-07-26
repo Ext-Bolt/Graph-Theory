@@ -21,3 +21,64 @@ void dfs(int v,int par = -1)    {
         is_artpoint(v);
     } 
 }
+
+// GFG PRACTICE
+
+set<int> ans;
+    int timer;
+    
+    void is_art(int v)  {
+        ans.insert(v);
+    }
+    
+    void dfs(int node,int par,vector<int> &vis,vector<int> &in,vector<int> &low,vector<int> ar[])   {
+        in[node] = timer;
+        low[node] = timer;
+        timer++;
+        vis[node] = 1;
+        int children = 0;
+        
+        for(int child : ar[node])   {
+            if(child == par)    {
+                continue;
+            }
+            else if(vis[child]) {
+                low[node] = min(low[node],in[child]);
+            }
+            else    {
+                dfs(child,node,vis,in,low,ar);
+                low[node] = min(low[node],low[child]);
+                
+                if(low[child] >= in[node] && par != -1)  {
+                    is_art(node);
+                }
+                children++;
+                
+            }
+        }
+        
+        if(par == -1 && children > 1) {
+            is_art(node);
+        }
+    }
+    
+    vector<int> articulationPoints(int V, vector<int>adj[]) {
+        vector<int> vis(V,0);
+        vector<int> in(V,INT_MAX);
+        vector<int> low(V,INT_MAX);
+        
+        for(int i = 0;i<V;i++)  {
+            if(vis[i] == 0) {
+                dfs(i,-1,vis,in,low,adj);
+            }
+        }
+        
+        if(ans.size() == 0) {
+            return {-1};
+        }
+        vector<int> res;
+        for(int i : ans)    {
+            res.push_back(i);
+        }
+        return res;
+    }
