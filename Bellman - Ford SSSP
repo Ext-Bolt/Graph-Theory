@@ -1,0 +1,40 @@
+struct e{
+        int a,b,c;
+    };
+    
+    vector <int> bellman_ford(int V, vector<vector<int>> adj, int S) {
+        vector<int> dist(V,100000000);
+        dist[S] = 0;
+        
+        vector<e> ed;
+        
+        for(int i = 0;i<V;i++)  {
+            for(auto &temp : adj)   {
+                e q;
+                q.a = temp[0];
+                q.b = temp[1];
+                q.c = temp[2];
+                ed.push_back(q);
+            }
+        }
+        
+        int m = ed.size();
+        
+        
+        for(;;) {
+            bool any = false;
+            for(int i = 0;i<m;i++)  {
+                if(dist[ed[i].a] < 100000000) {
+                    if(dist[ed[i].b] > dist[ed[i].a] + ed[i].c) {
+                        dist[ed[i].b] = dist[ed[i].a] + ed[i].c;
+                        any = true;
+                    }
+                }
+            }
+            if(!any)    {
+                break;
+            }
+        }
+        
+        return dist;
+    }
